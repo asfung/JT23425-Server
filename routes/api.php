@@ -27,10 +27,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->group(['prefix' => '/pegawai'], function ($router) {
         $router->get('/', [PegawaiController::class, 'index']);
-        $router->get('/{id}', [PegawaiController::class, 'showPegawai']);
+        $router->get('/ExportPdf', [PegawaiController::class, 'exportPegawaiPdf']);
+        // $router->get('/{id}', [PegawaiController::class, 'showPegawai']);
         $router->post('/Create', [PegawaiController::class, 'createPegawai']);
         $router->post('/{id}/Update', [PegawaiController::class, 'updatePegawai']);
         $router->delete('/{id}/Delete', [PegawaiController::class, 'deletePegawai']);
+        $router->get('/{id}/ProfileImage', [PegawaiController::class, 'getImage']);
     });
     $router->group(['prefix' => '/unit-kerja'], function ($router) {
         $router->get('/', function () {
@@ -50,8 +52,10 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
         $router->get('/golongan', [InputFormController::class, 'golongans']);
         $router->get('/eselon', [InputFormController::class, 'eselons']);
         $router->get('/jenis-kelamin', [InputFormController::class, 'jenisKelamin']);
-
+        $router->get('/unit-kerja', [InputFormController::class, 'unitKerja']);
+        $router->get('/{id}/jabatan', [InputFormController::class, 'jabatanByUnitKerja']);
         $router->get('/cities', [InputFormController::class, 'cities']);
+        $router->get('/agama', [InputFormController::class, 'agama']);
     });
 });
 

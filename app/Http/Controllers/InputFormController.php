@@ -3,9 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Common\ApiCommon;
+use App\Models\Jabatan;
+use App\Models\UnitKerja;
 use Illuminate\Http\Request;
 
 class InputFormController extends Controller {
+
+  public function unitKerja(Request $request){
+    try{
+      $uniKerjas = UnitKerja::with('parent')->get();
+      return ApiCommon::sendResponse($uniKerjas, 'Berhasil Mendapatkan Unit Kerja', 200);
+    }catch(\Exception $e){
+      return ApiCommon::sendResponse(null, $e->getMessage(), 500, false);
+    }
+  }
+
+  public function jabatanByUnitKerja(Request $request, $id){
+    try{
+      $jabatans = Jabatan::where('unit_kerja_id', $id)->get();
+      return ApiCommon::sendResponse($jabatans, 'Berhasil Mendapatkan Jabatan', 200);
+    }catch(\Exception $e){
+      return ApiCommon::sendResponse(null, $e->getMessage(), 500, false);
+    }
+  }
 
   public function golongans() {
     try {

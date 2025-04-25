@@ -11,8 +11,8 @@ class Media extends Model
     use HasFactory, HasUuids;
     protected $guarded = [];
 
-    // public function pegawai()
-    // {
-    //     return $this->belongsTo(Pegawai::class);
-    // }
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class);
+    }
 }
