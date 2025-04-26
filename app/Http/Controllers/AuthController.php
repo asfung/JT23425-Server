@@ -2,16 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Common\ApiCommon;
 use App\Models\User;
+use App\Common\ApiCommon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthController extends Controller {
 
   public function me(Request $request) {
-    return auth()->user();
+    try {
+      $user = JWTAuth::parseToken()->authenticate();
+      return response()->json($user);
+    } catch (TokenExpiredException $e) {
+      return response()->json([
+        'status' => 'error',
+        'key' => 'refresh-token',
+        'message' => 'Token has expired.',
+      ], 401);
+    } catch (TokenInvalidException $e) {
+      return response()->json([
+        'status' => 'error',
+        'key' => 'invalid-token',
+        'message' => 'Token is invalid.',
+      ], 401);
+    } catch (JWTException $e) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Token not provided.',
+      ], 401);
+    }
   }
 
   public function login(Request $request) {
@@ -65,7 +89,7 @@ class AuthController extends Controller {
       $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:6',
+        'password' => 'required|string|min:8',
       ]);
 
       $user = User::create([
@@ -77,17 +101,36 @@ class AuthController extends Controller {
       return response()->json([
         'message' => 'User created successfully',
         'user' => $user
-      ]);
+      ], 201);
     }catch(\Exception $e){
       return ApiCommon::sendResponse(null, $e->getMessage(), 500, false);
     }
   }
 
   public function logout() {
-    Auth::logout();
-    return response()->json([
-      'message' => 'Successfully logged out',
-    ]);
+    try{
+      Auth::logout();
+      return response()->json([
+        'message' => 'Successfully logged out',
+      ]);
+    } catch (TokenExpiredException $e) {
+      return response()->json([
+        'status' => 'error',
+        'key' => 'refresh-token',
+        'message' => 'Token has expired.',
+      ], 401);
+    } catch (TokenInvalidException $e) {
+      return response()->json([
+        'status' => 'error',
+        'key' => 'invalid-token',
+        'message' => 'Token is invalid.',
+      ], 401);
+    } catch (JWTException $e) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Token not provided.',
+      ], 401);
+    }
   }
 
   public function refresh()

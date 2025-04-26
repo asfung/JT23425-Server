@@ -32,6 +32,7 @@ class Authenticate extends Middleware {
       } catch (TokenInvalidException $e) {
         abort(response()->json([
           'status' => 'error',
+          'key' => 'invalid-token',
           'message' => 'Token is invalid.',
         ], 401));
       } catch (JWTException $e) {
