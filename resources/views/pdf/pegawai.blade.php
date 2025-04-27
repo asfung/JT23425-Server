@@ -4,49 +4,55 @@
   <meta charset="utf-8">
   <title>Daftar Pegawai</title>
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 20px; 
-    }
-    h2 {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    table {
-      width: 100%;
-      table-layout: fixed;
-      border-collapse: collapse;
-      margin-top: 20px;
-      word-wrap: break-word;
-      font-size: 11px; 
-    }
-    th, td {
-      border: 1px solid #000;
-      padding: 6px;
-      text-align: left;
-      vertical-align: top;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    img.profile {
-      max-width: 35px;
-      max-height: 35px;
-    }
-  </style>
+  body {
+    font-family: sans-serif;
+    margin: 2px;
+  }
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-top: 20px;
+    word-wrap: break-word;
+    font-size: 11px;
+  }
+  th, td {
+    border: 1px solid #000;
+    padding: 6px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  th:nth-child(1), td:nth-child(1) { width: 5%; }
+  th:nth-child(2), td:nth-child(2) { width: 9%; }
+  th:nth-child(3), td:nth-child(3) { width: 8%; }
+  th:nth-child(4), td:nth-child(4) { width: 10%; }
+  th:nth-child(5), td:nth-child(5) { width: 9%; }
+  th:nth-child(6), td:nth-child(6) { width: 7%; }
+  th:nth-child(7), td:nth-child(7) { width: 12%; }
+  th:nth-child(8), td:nth-child(8) { width: 8%; }
+  th:nth-child(9), td:nth-child(9) { width: 8%; }
+  th:nth-child(10), td:nth-child(10) { width: 10%; }
+  th:nth-child(11), td:nth-child(11) { width: 9%; }
+  th:nth-child(12), td:nth-child(12) { width: 5%; }
+  th:nth-child(13), td:nth-child(13) { width: 5%; }
+  th:nth-child(14), td:nth-child(14) { width: 9%; }
+  th:nth-child(15), td:nth-child(15) { width: 9%; }
+  img.profile {
+    max-width: 35px;
+    max-height: 35px;
+  }
+</style>
 </head>
 <body>
-  <h2>
-    <!-- SVG Icon -->
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-      <circle cx="9" cy="7" r="4"></circle>
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-    </svg>
-    Daftar Pegawai
-  </h2>
+  <h2>Daftar Pegawai</h2>
   <table>
     <thead>
       <tr>
@@ -58,11 +64,12 @@
         <th>Tanggal Lahir</th>
         <th>Alamat</th>
         <th>Jenis Kelamin</th>
-        <th>Golongan</th>
-        <th>Eselon</th>
         <th>Unit Kerja</th>
         <th>Jabatan</th>
         <th>Tempat Tugas</th>
+        <th>Gol</th>
+        <th>Eselon</th>
+        <th>Agama</th>
         <th>No Hp</th>
       </tr>
     </thead>
@@ -94,11 +101,12 @@
         <td>{{ $pegawai->tgl_lahir }}</td>
         <td>{{ $pegawai->alamat }}</td>
         <td>{{ $pegawai->jenis_kelamin }}</td>
-        <td>{{ $pegawai->gol }}</td>
-        <td>{{ $pegawai->eselon }}</td>
         <td>{{ $pegawai->unitKerja->label ?? '-' }}</td>
         <td>{{ $pegawai->jabatan }}</td>
         <td>{{ $pegawai->tempat_tugas }}</td>
+        <td>{{ $pegawai->gol }}</td>
+        <td>{{ $pegawai->eselon }}</td>
+        <td>{{ $pegawai->agama }}</td>
         <td>{{ $pegawai->no_hp }}</td>
       </tr>
       @endforeach
